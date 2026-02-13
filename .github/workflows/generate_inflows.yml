@@ -38,4 +38,4 @@ jobs:
 
       - name: Run Inflow Generation
         shell: Rscript {0}
-        run: source("forecast-code/workflows/glm_aed_flare_v3/create_inflow_forecast.R")
+        run: source("forecast-code/workflows/glm_aed_flare_v3/create_all_inflow_forecast_scenarios.R")
