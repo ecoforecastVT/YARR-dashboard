@@ -3,7 +3,7 @@ on:
   #schedule:
   # - cron: "0 13 * * *"
 
-name: glm_aed_flare_v3
+name: glm_aed_flare_automation_test
 
 jobs:
   run_flare:
