@@ -41,7 +41,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MW_ACCESS_SECRET }}
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        run: Rscript $GITHUB_WORKSPACE/forecast-code/scoring/prep-scoring.R
+        run: Rscript $GITHUB_WORKSPACE/forecast-code/scoring/prep_scoring.R
 
       - name: scoring-prep
         env:
