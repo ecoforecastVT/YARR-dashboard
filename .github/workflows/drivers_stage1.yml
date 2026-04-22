@@ -26,6 +26,12 @@ jobs:
           token: ${{ secrets.GIT_PAT }}
           path: forecast-code
 
+      - name: Install libuv
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y libuv1 libuv1-dev
+
       - name: Install
         shell: Rscript {0}
         run: |
