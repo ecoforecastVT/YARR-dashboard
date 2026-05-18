@@ -12,6 +12,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       OSN_KEY: ${{ secrets.OSN_KEY }}
       OSN_SECRET: ${{ secrets.OSN_SECRET }}
+      AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+      AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
     permissions:
      contents: write
     container: rocker/geospatial:latest
@@ -42,7 +44,7 @@ jobs:
           install.packages("imputeTS")
           install.packages("future")
           install.packages("furrr")
-          remotes::install_version("arrow", version = "20.0.0")
+          #remotes::install_version("arrow", version = "20.0.0")
           
       - name: Download Pseudo
         shell: Rscript {0}
