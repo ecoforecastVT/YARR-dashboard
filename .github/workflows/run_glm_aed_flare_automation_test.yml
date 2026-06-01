@@ -27,7 +27,7 @@ jobs:
 
       - name: install deps
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PAT: ${{ secrets.GIT_TOKEN }}
         shell: Rscript {0}
         run: |
           remotes::install_github('LTREB-reservoirs/ver4castHelpers')
@@ -40,5 +40,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MW_ACCESS_SECRET }}
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PAT: ${{ secrets.GIT_TOKEN }}
         run:  Rscript $GITHUB_WORKSPACE/forecast-code/workflows/glm_aed_flare_automation_test/forecast_workflow_aed.R
