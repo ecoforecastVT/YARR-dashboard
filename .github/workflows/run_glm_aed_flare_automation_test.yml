@@ -9,7 +9,7 @@ jobs:
   run_flare:
     runs-on: ubuntu-latest #[self-hosted]
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GIT_TOKEN }}
       MW_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
       MW_ACCESS_SECRET: ${{ secrets.MW_ACCESS_SECRET }}
     permissions:
