@@ -1,0 +1,66 @@
+on:
+  workflow_dispatch:
+  #schedule:
+  #  - cron: '0 2 * * *'  # Run daily at 2:00 UTC
+
+name: deploy-encrypted-dashboard
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    container: rqthomas/vera-rocker:latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      MW_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
+      MW_ACCESS_SECRET: ${{ secrets.MW_ACCESS_SECRET }}
+      DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: clone lake repository
+        uses: actions/checkout@v6
+        with:
+          repository: ecoforecastVT/YARR-forecast
+          token: ${{ secrets.GIT_PAT }}
+          path: forecast-code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev \
+            libgdal-dev libgeos-dev libproj-dev libudunits2-dev
+
+      - name: Install R packages
+        shell: Rscript {0}
+        run: |
+          install.packages(c(
+            "tidyverse", "arrow", "bslib", "bsicons",
+            "leaflet", "oce", "glue", "sf", "jpeg", "lubridate"
+          ))
+          install.packages("remotes")
+          remotes::install_github("eco4cast/minioclient")
+          install.packages("staticryptR", repos = c(
+            "https://zajichek.r-universe.dev",
+            "https://cloud.r-project.org"
+          ))
+
+      - name: Render and encrypt dashboard
+        working-directory: dashboard
+        run: quarto render YARR_dashboard.qmd
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dashboard/encrypted_output
+          publish_branch: gh-pages
