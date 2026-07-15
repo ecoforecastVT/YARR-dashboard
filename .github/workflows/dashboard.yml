@@ -63,7 +63,16 @@ jobs:
         
       - name: Render and encrypt dashboard
         working-directory: forecast-code/dashboard
-        run: quarto render YARR_dashboard.qmd
+        run: |
+          quarto render YARR_dashboard.qmd
+
+          # Encrypt rendered HTML (input/output in current working directory)
+          npx -y staticrypt YARR_dashboard.html "$DASHBOARD_PASSWORD" \
+          -o YARR_dashboard_encrypted.html
+
+          # Prepare publish directory in repo root
+          mkdir -p ../../encrypted_output
+          cp YARR_dashboard_encrypted.html ../../encrypted_output/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
