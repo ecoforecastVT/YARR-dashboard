@@ -55,7 +55,7 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         
       - name: Render and encrypt dashboard
-        working-directory: dashboard
+        working-directory: forecast-code/dashboard
         run: quarto render YARR_dashboard.qmd
 
       - name: Deploy to GitHub Pages
