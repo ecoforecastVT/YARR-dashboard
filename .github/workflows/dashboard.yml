@@ -3,7 +3,7 @@ on:
   #schedule:
   #  - cron: '0 2 * * *'  # Run daily at 2:00 UTC
 
-name: deploy-encrypted-dashboard
+name: dashboard
 
 jobs:
   build-deploy:
@@ -31,9 +31,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
@@ -45,7 +42,7 @@ jobs:
         run: |
           install.packages(c(
             "tidyverse", "arrow", "bslib", "bsicons",
-            "leaflet", "oce", "glue", "sf", "jpeg", "lubridate"
+            "leaflet", "oce", "glue", "sf", "jpeg", "lubridate", "curl"
           ))
           install.packages("remotes")
           remotes::install_github("eco4cast/minioclient")
@@ -54,6 +51,9 @@ jobs:
             "https://cloud.r-project.org"
           ))
 
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        
       - name: Render and encrypt dashboard
         working-directory: dashboard
         run: quarto render YARR_dashboard.qmd
