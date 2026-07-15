@@ -1,8 +1,8 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
-  #schedule:
-  #  - cron: '0 15 * * *'
+  schedule:
+    - cron: '0 15 * * *'
   workflow_dispatch:
 
 name: scoring
@@ -41,9 +41,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MW_ACCESS_SECRET }}
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        run: Rscript $GITHUB_WORKSPACE/forecast-code/scoring/prep-scoring.R
+        run: Rscript $GITHUB_WORKSPACE/forecast-code/scoring/prep_scoring.R
 
-      - name: scoring-prep
+      - name: scoring
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MW_ACCESS_SECRET }}

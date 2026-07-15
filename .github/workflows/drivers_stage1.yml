@@ -13,6 +13,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       OSN_KEY: ${{ secrets.OSN_KEY }}
       OSN_SECRET: ${{ secrets.OSN_SECRET }}
+      AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+      AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
     permissions:
      contents: write
     container: rocker/geospatial:latest
@@ -26,6 +28,12 @@ jobs:
           token: ${{ secrets.GIT_PAT }}
           path: forecast-code
 
+      - name: Install libuv
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y libuv1 libuv1-dev
+
       - name: Install
         shell: Rscript {0}
         run: |
@@ -33,7 +41,7 @@ jobs:
           remotes::install_github("eco4cast/gefs4cast")
           install.packages("decor")
           install.packages("imputeTS")
-          remotes::install_version("arrow", version = "20.0.0")
+          #remotes::install_version("arrow", version = "20.0.0")
           #install.packages("arrow", version = "20.0.0")
 
       - name: Download stage 1
