@@ -69,5 +69,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dashboard/encrypted_output
+          publish_dir: forecast-code/dashboard/encrypted_output
           publish_branch: gh-pages
