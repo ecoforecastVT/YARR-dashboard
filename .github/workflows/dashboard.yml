@@ -51,6 +51,12 @@ jobs:
             "https://cloud.r-project.org"
           ))
 
+      - name: Install MinIO client (mc)
+        run: |
+          curl -fsSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
+          chmod +x /usr/local/bin/mc
+          mc --version
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
