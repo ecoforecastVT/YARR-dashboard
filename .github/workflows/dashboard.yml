@@ -73,55 +73,27 @@ jobs:
           mkdir -p ../encrypted_output
 
           # Render directly to a deterministic file
-          quarto render index.qmd
+          quarto render YARR_dashboard.qmd
 
           # Verify rendered HTML exists and is non-empty
           if [[ ! -s "./_output/index.html" ]]; then
-            echo "ERROR: index.html was not generated or is empty"
+            echo "ERROR: YARR_dashboard.html was not generated or is empty"
             exit 1
           fi
 
           # Encrypt output
-          npx --yes staticrypt ./_output/index.html \
+          npx --yes staticrypt ./_output/YARR_dashboard.html \
             -p "${DASHBOARD_PASSWORD}" \
-            -o ../encrypted_output/index.html
+            -o ../encrypted/YARR_dashboard.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "./encrypted/index.html" ]]; then
-            echo "ERROR: encrypted/index.html missing or empty"
+          if [[ ! -s "./encrypted/YARR_dashboard.html" ]]; then
+            echo "ERROR: encrypted/YARR_dashboard.html missing or empty"
             exit 1
 
           fi
 
           echo "Dashboard render + encryption succeeded"
-
-      # - name: Render and encrypt dashboard
-      #   working-directory: forecast-code/dashboard
-      #   shell: bash
-      #   run: |
-      #
-      #     mkdir -p ../encrypted_output
-      #
-      #     # Render directly to a deterministic file
-      #     quarto render YARR_dashboard.qmd --to html --output YARR_dashboard.html
-      #
-      #     # Verify rendered HTML exists and is non-empty
-      #     if [[ ! -s "YARR_dashboard.html" ]]; then
-      #       echo "ERROR: YARR_dashboard.html was not generated or is empty"
-      #       exit 1
-      #     fi
-      #
-      #     # Encrypt output
-      #     npx --yes staticrypt ./YARR_dashboard.html "${DASHBOARD_PASSWORD}" \
-      #       --output ../../encrypted_output/YARR_dashboard.html
-      #
-      #     # Verify encrypted output exists and is non-empty
-      #     if [[ ! -s "../../encrypted_output/YARR_dashboard.html" ]]; then
-      #       echo "ERROR: encrypted_output/YARR_dashboard.html missing or empty"
-      #       exit 1
-      #     fi
-      #
-      #     echo "Dashboard render + encryption succeeded"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
