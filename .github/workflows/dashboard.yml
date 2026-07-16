@@ -84,7 +84,7 @@ jobs:
             -o ../encrypted_output/YARR_dashboard.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "../encrypted_output/YARR_dashboard.html" ]]; then
+          if [[ ! -s "./encrypted/YARR_dashboard.html" ]]; then
             echo "ERROR: encrypted_output/YARR_dashboard.html missing or empty"
 
           fi
