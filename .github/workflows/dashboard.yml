@@ -65,9 +65,8 @@ jobs:
         working-directory: forecast-code/dashboard
         shell: bash
         run: |
-          set -euo pipefail
 
-          mkdir -p ../../encrypted_output
+          mkdir -p ../encrypted_output
 
           # Render directly to a deterministic file
           quarto render YARR_dashboard.qmd --to html --output YARR_dashboard.html
