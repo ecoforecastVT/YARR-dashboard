@@ -63,6 +63,7 @@ jobs:
         
       - name: Render and encrypt dashboard
         working-directory: forecast-code/dashboard
+        shell: bash
         run: |
           set -euo pipefail
       
