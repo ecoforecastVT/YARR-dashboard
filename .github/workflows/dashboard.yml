@@ -65,15 +65,14 @@ jobs:
         working-directory: forecast-code/dashboard
         shell: bash
         run: |
-          set -euo pipefail
-      
+
           quarto render YARR_dashboard.qmd
           test -f YARR_dashboard.html
-      
+
           mkdir -p ../../encrypted_output
           npx -y staticrypt YARR_dashboard.html "$DASHBOARD_PASSWORD" \
             -o ../../encrypted_output/index.html
-      
+
           test -f ../../encrypted_output/index.html
 
       - name: Deploy to GitHub Pages
