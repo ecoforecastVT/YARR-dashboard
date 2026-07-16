@@ -64,17 +64,15 @@ jobs:
       - name: Render and encrypt dashboard
         working-directory: forecast-code/dashboard
         run: |
-          quarto render YARR_dashboard.qmd
+          set -euo pipefail
       
-          # Ensure output exists before encryption
+          quarto render YARR_dashboard.qmd
           test -f YARR_dashboard.html
       
-          # Encrypt rendered HTML into repo-level publish dir
           mkdir -p ../../encrypted_output
           npx -y staticrypt YARR_dashboard.html "$DASHBOARD_PASSWORD" \
             -o ../../encrypted_output/index.html
       
-          # Verify final artifact
           test -f ../../encrypted_output/index.html
 
       - name: Deploy to GitHub Pages
