@@ -73,22 +73,22 @@ jobs:
           mkdir -p ../encrypted_output
 
           # Render directly to a deterministic file
-          quarto render YARR_dashboard.qmd
+          quarto render index.qmd
 
           # Verify rendered HTML exists and is non-empty
-          if [[ ! -s "./_output/YARR_dashboard.html" ]]; then
-            echo "ERROR: YARR_dashboard.html was not generated or is empty"
+          if [[ ! -s "./_output/index.html" ]]; then
+            echo "ERROR: index.html was not generated or is empty"
             exit 1
           fi
 
           # Encrypt output
-          npx --yes staticrypt ./_output/YARR_dashboard.html \
+          npx --yes staticrypt ./_output/index.html \
             -p "${DASHBOARD_PASSWORD}" \
-            -o ../encrypted_output/YARR_dashboard.html
+            -o ../encrypted_output/index.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "./encrypted/YARR_dashboard.html" ]]; then
-            echo "ERROR: encrypted/YARR_dashboard.html missing or empty"
+          if [[ ! -s "./encrypted/index.html" ]]; then
+            echo "ERROR: encrypted/index.html missing or empty"
             exit 1
 
           fi
