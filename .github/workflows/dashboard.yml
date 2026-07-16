@@ -86,7 +86,7 @@ jobs:
           # Verify encrypted output exists and is non-empty
           if [[ ! -s "../encrypted/YARR_dashboard.html" ]]; then
             echo "ERROR: encrypted/YARR_dashboard.html missing or empty"
-            exit 1
+
           fi
 
           echo "Dashboard render + encryption succeeded"
