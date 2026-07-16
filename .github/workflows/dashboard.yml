@@ -84,8 +84,8 @@ jobs:
             -o ../encrypted_output/YARR_dashboard.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "../encrypted_output/YARR_dashboard.html" ]]; then
-            echo "ERROR: encrypted_output/YARR_dashboard.html missing or empty"
+          if [[ ! -s "../encrypted/YARR_dashboard.html" ]]; then
+            echo "ERROR: encrypted/YARR_dashboard.html missing or empty"
             exit 1
           fi
 
@@ -123,5 +123,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: encrypted_output
+          publish_dir: encrypted
           publish_branch: gh-pages
