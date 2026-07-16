@@ -79,8 +79,9 @@ jobs:
           fi
 
           # Encrypt output
-          npx --yes staticrypt ./_output/YARR_dashboard.html "${DASHBOARD_PASSWORD}" \
-            --output ../encrypted_output/YARR_dashboard.html
+          npx --yes staticrypt ./_output/YARR_dashboard.html \
+            -p "${DASHBOARD_PASSWORD}" \
+            -o ../encrypted_output/YARR_dashboard.html
 
           # Verify encrypted output exists and is non-empty
           if [[ ! -s "../encrypted_output/YARR_dashboard.html" ]]; then
