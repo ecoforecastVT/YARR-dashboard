@@ -36,9 +36,25 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y curl jq libcurl4-openssl-dev libssl-dev libxml2-dev \
-            libgdal-dev libgeos-dev libproj-dev libudunits2-dev
+          set -euo pipefail
+
+          # Retry apt metadata refresh
+          for i in 1 2 3; do
+            sudo apt-get update && break
+            echo "apt-get update failed (attempt $i), retrying in 20s..."
+            sleep 20
+          done
+
+          # Retry package install
+          for i in 1 2 3; do
+            sudo apt-get install -y --fix-missing \
+              libcurl4-openssl-dev libssl-dev libxml2-dev \
+              libgdal-dev libgeos-dev libproj-dev libudunits2-dev \
+              curl jq && break
+            echo "apt-get install failed (attempt $i), retrying in 30s..."
+            sleep 30
+            sudo apt-get update
+          done
 
       - name: Install R packages
         shell: Rscript {0}
