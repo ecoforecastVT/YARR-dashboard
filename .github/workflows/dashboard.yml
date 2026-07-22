@@ -87,6 +87,8 @@ jobs:
         shell: bash
         run: |
 
+          set -euo pipefail
+
           mkdir -p ../encrypted
 
           # Render directly to a deterministic file
@@ -98,14 +100,20 @@ jobs:
             exit 1
           fi
 
+          if [[ -z "${DASHBOARD_PASSWORD:-}" ]]; then
+            echo "ERROR: DASHBOARD_PASSWORD is not set"
+            exit 1
+          fi
+
           # Encrypt output
-          npx --yes staticrypt ./_output/YARR_dashboard.html \
+          npx --yes staticrypt@3.5.3 ./_output/YARR_dashboard.html \
             -p "${DASHBOARD_PASSWORD}" \
             -o ../encrypted/index.html
 
           # Verify encrypted output exists and is non-empty
           if [[ ! -s "../encrypted/index.html" ]]; then
             echo "ERROR: encrypted/index.html missing or empty"
+            ls -lah ../encrypted || true
             exit 1
 
           fi
