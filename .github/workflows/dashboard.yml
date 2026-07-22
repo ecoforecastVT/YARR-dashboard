@@ -76,7 +76,7 @@ jobs:
           quarto render YARR_dashboard.qmd
 
           # Verify rendered HTML exists and is non-empty
-          if [[ ! -s "./_output/index.html" ]]; then
+          if [[ ! -s "./_output/YARR_dashboard.html" ]]; then
             echo "ERROR: YARR_dashboard.html was not generated or is empty"
             exit 1
           fi
