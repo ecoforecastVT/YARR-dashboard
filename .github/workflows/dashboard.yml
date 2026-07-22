@@ -106,7 +106,7 @@ jobs:
           fi
 
           # Encrypt output
-          npx --yes staticrypt@3.5.3 ./_output/YARR_dashboard.html \
+          npx --yes staticrypt ./_output/YARR_dashboard.html \
             -p "${DASHBOARD_PASSWORD}" \
             -o ../encrypted/index.html
 
