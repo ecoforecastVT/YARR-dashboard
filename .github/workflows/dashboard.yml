@@ -87,7 +87,7 @@ jobs:
         shell: bash
         run: |
 
-          mkdir -p ../encrypted_output
+          mkdir -p ../encrypted
 
           # Render directly to a deterministic file
           quarto render YARR_dashboard.qmd
