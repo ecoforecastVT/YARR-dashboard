@@ -87,7 +87,7 @@ jobs:
             -o ../encrypted/index.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "./encrypted/index.html" ]]; then
+          if [[ ! -s "../encrypted/index.html" ]]; then
             echo "ERROR: encrypted/index.html missing or empty"
             exit 1
 
