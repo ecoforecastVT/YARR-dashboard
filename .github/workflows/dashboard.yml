@@ -84,11 +84,11 @@ jobs:
           # Encrypt output
           npx --yes staticrypt ./_output/YARR_dashboard.html \
             -p "${DASHBOARD_PASSWORD}" \
-            -o ../encrypted/YARR_dashboard.html
+            -o ../encrypted/index.html
 
           # Verify encrypted output exists and is non-empty
-          if [[ ! -s "./encrypted/YARR_dashboard.html" ]]; then
-            echo "ERROR: encrypted/YARR_dashboard.html missing or empty"
+          if [[ ! -s "./encrypted/index.html" ]]; then
+            echo "ERROR: encrypted/index.html missing or empty"
             exit 1
 
           fi
