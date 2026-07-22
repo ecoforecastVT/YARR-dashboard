@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
   
-name: dashboard
+name: dashboard_old
 
 jobs:
   build-deploy:
