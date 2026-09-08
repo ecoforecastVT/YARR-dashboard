@@ -16,6 +16,8 @@ name: dashboard
 
 jobs:
   build-deploy:
+    # run on manual dispatch, or whenever scoring finishes (regardless of outcome)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion != '' }}
     runs-on: ubuntu-latest
     container: rqthomas/vera-rocker:latest
     env:
