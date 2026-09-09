@@ -58,6 +58,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: scoring
     if: always()
+    permissions:
+     contents: write
     container: rqthomas/vera-rocker:latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
