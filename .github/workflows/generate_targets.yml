@@ -40,9 +40,9 @@ jobs:
           install.packages('here')
           install.packages('jsonlite')
 
-      - name: Run Inflow Generation
+      - name: Run Targets Generation
         shell: Rscript {0}
-        run: source("forecast-code/workflows/glm_aed_flare_automation_test/generate_targets_aed.R")
+        run: source("forecast-code/workflows/glm_aed_flare_automation_test/generate_targets_aed_alternative.R")
 
       - name: Call Healthcheck
         run: |

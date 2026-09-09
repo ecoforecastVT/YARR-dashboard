@@ -1,24 +1,63 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
-  # workflow_run:
-  #   workflows: ["scoring"]
-  #   types: [completed]
+  workflow_run:
+    workflows: ["glm_aed_flare_automation_test"]
+    types: [completed]
   workflow_dispatch:
 
-# on:
-#   workflow_dispatch:
-#   schedule:
-#     - cron: '0 16 * * *'  # Run daily at 2:00 UTC
-
-permissions:
-  contents: write
-
-name: dashboard
+name: scoring-dashboard
 
 jobs:
-  build-deploy:
-    # run on manual dispatch, or whenever scoring finishes (regardless of outcome)
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion != '' }}
+  scoring:
+    runs-on: ubuntu-latest #[self-hosted]
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      MW_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
+      MW_ACCESS_SECRET: ${{ secrets.MW_ACCESS_SECRET }}
+    permissions:
+     contents: write
+    container: rqthomas/flare-rocker:4.4
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: clone lake repository
+        uses: actions/checkout@v6
+        with:
+          repository: ecoforecastVT/YARR-forecast
+          token: ${{ secrets.GIT_PAT }}
+          path: forecast-code
+
+      - name: install deps
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+        shell: Rscript {0}
+        run: |
+          remotes::install_github('LTREB-reservoirs/ver4castHelpers')
+          install.packages('rLakeAnalyzer')
+          install.packages('minioclient')
+          install.packages('duckdbfs')
+          install.packages('tidyverse')
+          remotes::install_cran("dplyr", force = TRUE)
+
+      - name: scoring
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.MW_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MW_ACCESS_SECRET }}
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+        run: Rscript $GITHUB_WORKSPACE/forecast-code/scoring/scoring.R
+
+      - name: Call Healthcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+          curl -m 10 --retry 5 https://hc-ping.com/06e8b152-229a-43d6-8bea-21958e6f359f
+
+
+  build-deploy-dashboard:
     runs-on: ubuntu-latest
+    needs: scoring
+    if: always()
     container: rqthomas/vera-rocker:latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -115,3 +154,4 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y curl
           curl -m 10 --retry 5 https://hc-ping.com/a9b24980-a616-44c0-95b2-a8e93047ec28
+
