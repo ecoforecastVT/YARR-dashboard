@@ -39,6 +39,7 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_github("eco4cast/gefs4cast")
+          remotes::install_github("appelmar/gdalcubes")
           install.packages("decor")
           install.packages("imputeTS")
           #remotes::install_version("arrow", version = "20.0.0")
