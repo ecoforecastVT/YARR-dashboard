@@ -95,7 +95,7 @@ jobs:
           install.packages(c(
             "tidyverse", "arrow", "bslib", "bsicons",
             "leaflet", "oce", "glue", "sf", "jpeg", "lubridate", "curl", "minioclient",
-            "downloadthis", "staticryptR"
+            "downloadthis", "staticryptR", "ragg"
           ))
           install.packages("remotes")
           #remotes::install_github("eco4cast/minioclient")
