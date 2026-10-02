@@ -97,7 +97,7 @@ jobs:
           install.packages(c(
             "tidyverse", "arrow", "bslib", "bsicons",
             "leaflet", "oce", "glue", "sf", "jpeg", "lubridate", "curl", "minioclient",
-            "downloadthis", "staticryptR"
+            "downloadthis", "staticryptR", "ragg"
           ))
           install.packages("remotes")
           #remotes::install_github("eco4cast/minioclient")
@@ -106,11 +106,11 @@ jobs:
             "https://cloud.r-project.org"
           ))
 
-      - name: Install MinIO client (mc)
-        run: |
-          curl -fsSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
-          chmod +x /usr/local/bin/mc
-          mc --version
+      #- name: Install MinIO client (mc)
+      #  run: |
+      #    curl -fsSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
+      #    chmod +x /usr/local/bin/mc
+      #    mc --version
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
